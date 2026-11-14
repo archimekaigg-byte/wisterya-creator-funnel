@@ -1,0 +1,14 @@
+---
+import config from '../../config/site.config.json';
+import Layout from '../components/Layout.astro';
+const enabled = config.tracking_attivo;
+---
+<Layout title={`Privacy Policy | ${config.nome}`} description="Privacy policy and information on age verification, logs, Cloudflare Turnstile and optional analytics." robots="index,follow" canonicalPath="/privacy-policy">
+  <main class="policy-shell">
+    <a href={`/${config.slug}`} aria-label="Back to profile">‚Üê Back to profile</a>
+    <h1>Privacy Policy</h1>
+    <nav class="policy-switch" aria-label="Policy language"><button type="button" data-lang="it" aria-pressed="true">Italiano</button><button type="button" data-lang="en" aria-pressed="false">English</button></nav>
+    <section class="policy-lang" data-section="it" lang="it">
+      <p><strong>Titolare/contatto:</strong> {config.nome}. Per richieste sulla privacy: <a href={`mailto:${config.email_contatto}`}>{config.email_contatto}</a>. Sostituire questi dati con il contatto reale prima della pubblicazione definitiva.</p>
+      <h2>Quali dati trattiamo</h2>
+      <p>Il sito registra gli eventi tecnici di visita alla prima pagina, visita alla seconda pagina, apertura della verifica, conferma dell'et√† e uscita. Ogni evento pu√≤ comprendere data e ora, paese dedotto dagli header del provider (se disponibile), referrer, user agent e hash dell'IP con sale segreto; l'IP non viene intenzionalmente salvato in chiaro nel registro applicativo. Il fornitore di hosting pu√≤ comunque t∂ªßq´^

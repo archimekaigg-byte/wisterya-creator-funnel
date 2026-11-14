@@ -1,0 +1,23 @@
+---
+import site from '../../../config/site.config.json';
+import Layout from '../../components/Layout.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import Footer from '../../components/Footer.astro';
+import AgeModal from '../../components/AgeModal.astro';
+export const getStaticPaths = () => [{params:{slug:site.slug}}];
+---
+<Layout title={`${site.nome} | Chat`} description={site.testo_pagina_2} image={site.foto_b} robots="noindex,nofollow" canonicalPath={`/go/${site.slug}`}>
+  <main class="site-shell page-two">
+    <div class="content">
+      <ProfileCard second={true} />
+      <p class="page-two-copy">{site.testo_pagina_2}</p>
+      <div class="cta-wrap"><button class="primary-button" type="button" data-open-age>{site.testo_bottone_2}</button></div>
+    </div>
+    <Footer />
+  </main>
+  <AgeModal />
+  <script>
+    const data=JSON.stringify({event:'page_two',referrer:document.referrer});
+    if (navigator.sendBeacon) navigator.sendBeacon('/api/events',new Blob([data],{type:'text/plain'}));
+  </script>
+</Layout>

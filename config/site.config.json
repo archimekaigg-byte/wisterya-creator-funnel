@@ -1,11 +1,10 @@
 {
   "nome": "Wisterya",
-  "slug": "wisterya",
-  "dominio": "https://ludonio.vip",
   "handle": "@lu.donio",
   "bio": "A little more about me ✨",
-  "foto_a": "/images/photo-a.webp",
-  "foto_b": "/images/photo-b.webp",
+  "slug": "wisterya",
+  "foto_a": "/images/photo-a-placeholder.webp",
+  "foto_b": "/images/photo-b-placeholder.webp",
   "badge_verificato": false,
   "testo_bottone_1": "more of me",
   "testo_bottone_2": "chat with me",
@@ -23,6 +22,7 @@
     "copyright": "#6b6b6b",
     "superficie": "#121212"
   },
+  "dominio": "https://ludonio.vip",
   "tracking_attivo": false,
   "turnstile_site_key": ""
 }

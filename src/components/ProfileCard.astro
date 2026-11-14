@@ -1,0 +1,20 @@
+---
+import site from '../../config/site.config.json';
+const { second = false } = Astro.props;
+const photo = second ? site.foto_b : site.foto_a;
+const avif = photo.endsWith('.webp') ? photo.replace(/\.webp$/, '.avif') : null;
+---
+<div class="profile-card">
+  <picture>
+    {avif && <source type="image/avif" srcset={avif} />}
+    <img src={photo} width="900" height="1125" alt={`Promotional portrait of ${site.nome}`} fetchpriority="high" loading="eager" decoding="async" />
+  </picture>
+  <div class="profile-caption">
+    <div class="name-row">
+      <h1>{site.nome}</h1>
+      {second && site.badge_verificato && <svg class="verified-icon" viewBox="0 0 24 24" role="img" aria-label="Verified account"><path fill="#299cff" d="m12 1.8 2.44 1.16 2.7.09 1.47 2.26 2.36 1.33-.15 2.7L22 12l-1.18 2.66.15 2.7-2.36 1.33-1.47 2.26-2.7.09L12 22.2l-2.44-1.16-2.7-.09-1.47-2.26-2.36-1.33.15-2.7L2 12l1.18-2.66-.15-2.7L5.39 5.3l1.47-2.26 2.7-.09Z"/><path fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m7.9 12.2 2.7 2.7 5.5-5.7"/></svg>}
+    </div>
+    <p class="handle">{site.handle}</p>
+    {!second && <p class="bio">{site.bio}</p>}
+  </div>
+</div>

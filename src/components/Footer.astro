@@ -1,0 +1,7 @@
+---
+import site from '../../config/site.config.json';
+---
+<footer class="site-footer"><a href="/privacy-policy">Privacy Policy</a><small>© <span data-current-year>{new Date().getFullYear()}</span> {site.nome}</small></footer>
+<script>
+  document.querySelectorAll('[data-current-year]').forEach(el=>{el.textContent=String(new Date().getFullYear());});
+</script>
