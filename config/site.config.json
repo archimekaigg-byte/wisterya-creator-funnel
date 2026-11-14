@@ -1,0 +1,28 @@
+{
+  "nome": "Wisterya",
+  "slug": "wisterya",
+  "dominio": "https://ludonio.vip",
+  "handle": "@lu.donio",
+  "bio": "A little more about me ✨",
+  "foto_a": "/images/photo-a.webp",
+  "foto_b": "/images/photo-b.webp",
+  "badge_verificato": false,
+  "testo_bottone_1": "more of me",
+  "testo_bottone_2": "chat with me",
+  "testo_pagina_2": "More of my content. Tap below to chat with me.",
+  "url_destinazione": "https://www.fanvue.com/wisterya/fv-1",
+  "url_tracker": "",
+  "link_instagram": "https://www.instagram.com/lu.donio",
+  "link_snapchat": "",
+  "link_tiktok": "",
+  "email_contatto": "privacy@example.com",
+  "colori": {
+    "sfondo": "#0a0a0a",
+    "testo": "#ffffff",
+    "secondario": "#9a9a9a",
+    "copyright": "#6b6b6b",
+    "superficie": "#121212"
+  },
+  "tracking_attivo": false,
+  "turnstile_site_key": ""
+}
