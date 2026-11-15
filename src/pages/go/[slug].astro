@@ -10,10 +10,25 @@ export const getStaticPaths = () => [{params:{slug:site.slug}}];
     <div class="content">
       <ProfileCard second={true} />
       <p class="page-two-copy">{site.testo_pagina_2}</p>
-      <div class="cta-wrap"><a class="primary-button" id="fanvue-link" href={site.url_destinazione} rel="noopener noreferrer">{site.testo_bottone_2}</a></div>
+      <div class="cta-wrap"><a class="primary-button" id="fanvue-link" href="#age-confirmation" rel="noopener noreferrer">{site.testo_bottone_2}</a></div>
     </div>
     <Footer />
   </main>
+  <div class="age-overlay" id="age-confirmation">
+    <section class="age-dialog" role="dialog" aria-labelledby="age-title" aria-describedby="age-description">
+      <h2 id="age-title">Are you over 18?</h2>
+      <p id="age-description">This link contains content for adults only. Please confirm you are 18 or older to continue.</p>
+      <div class="age-actions">
+        <a class="primary-button" href={site.url_destinazione} rel="noopener noreferrer">Yes, I'm over 18</a>
+        <a class="secondary-button" href={'/go/' + site.slug}>No, take me back</a>
+      </div>
+    </section>
+  </div>
+  <style is:global>
+    #age-confirmation {display:none!important;pointer-events:none!important;}
+    #age-confirmation:target {display:flex!important;pointer-events:auto!important;}
+    #age-confirmation .age-actions a {min-height:54px;touch-action:manipulation;}
+  </style>
   <script>
     const data=JSON.stringify({event:'page_two',referrer:document.referrer});
     if (navigator.sendBeacon) navigator.sendBeacon('/api/events',new Blob([data],{type:'text/plain'}));
