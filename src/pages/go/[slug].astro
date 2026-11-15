@@ -26,30 +26,42 @@ export const getStaticPaths = () => [{params:{slug:site.slug}}];
     </section>
   </div>
   <style>#age-overlay[hidden]{display:none!important;pointer-events:none!important}</style>
-  <script>
-    (() => {
-      try {
-        const overlay = document.getElementById('age-overlay');
-        const confirmButton = document.getElementById('confirm-age');
-        const link = document.getElementById('fanvue-link');
-        if (!overlay || !confirmButton || !link) return;
-        const key = 'age-confirmed:' + location.pathname;
-        function unlock() {
-          overlay.hidden = true;
-          overlay.style.display = 'none';
-          overlay.style.pointerEvents = 'none';
-          document.body.style.overflow = '';
-          link.style.pointerEvents = '';
-          link.style.opacity = '';
-          link.removeAttribute('aria-disabled');
-          link.removeAttribute('tabindex');
+  <script is:inline>
+    (function () {
+      function initializeAgeGate() {
+        try {
+          var overlay = document.getElementById('age-overlay');
+          var confirmButton = document.getElementById('confirm-age');
+          var link = document.getElementById('fanvue-link');
+          if (!overlay || !confirmButton || !link) return;
+          var key = 'age-confirmed:' + window.location.pathname;
+          function unlock() {
+            overlay.hidden = true;
+            overlay.style.display = 'none';
+            overlay.style.pointerEvents = 'none';
+            document.body.style.overflow = '';
+            link.style.pointerEvents = 'auto';
+            link.style.opacity = '1';
+            link.removeAttribute('aria-disabled');
+            link.removeAttribute('tabindex');
+          }
+          try {
+            if (window.sessionStorage.getItem(key) === 'yes') unlock();
+          } catch (error) { /* Session storage may be blocked. */ }
+          confirmButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            unlock();
+            try { window.sessionStorage.setItem(key, 'yes'); } catch (error) {}
+          }, false);
+        } catch (error) {
+          console.error('Age gate initialization failed', error);
         }
-        try { if (sessionStorage.getItem(key) === 'yes') unlock(); } catch (_) {}
-        confirmButton.addEventListener('click', () => {
-          unlock();
-          try { sessionStorage.setItem(key, 'yes'); } catch (_) {}
-        });
-      } catch (error) { console.error('Age gate initialization failed', error); }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeAgeGate, { once: true });
+      } else {
+        initializeAgeGate();
+      }
     })();
   </script>
   <script>
