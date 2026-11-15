@@ -4,21 +4,16 @@ import Layout from '../components/Layout.astro';
 import ProfileCard from '../components/ProfileCard.astro';
 import Footer from '../components/Footer.astro';
 import SocialIcons from '../components/SocialIcons.astro';
-export const getStaticPaths = () => [{ params:{slug:site.slug} }];
-const description = `${site.nome} (${site.handle}). ${site.bio}`;
+export const getStaticPaths = () => [{ params: { slug: site.slug } }];
+const description = site.nome + ' (' + site.handle + '). ' + site.bio;
 ---
-<Layout title={`${site.nome} | ${site.handle}`} description={description} image={site.foto_a} canonicalPath={`/${site.slug}`}>
+<Layout title={site.nome + ' | ' + site.handle} description={description} image={site.foto_a} canonicalPath={'/' + site.slug}>
   <main class="site-shell">
     <div class="content">
       <ProfileCard />
-      <div class="cta-wrap"><a class="primary-button" id="more-link" href={`/go/${site.slug}`}><span>{site.testo_bottone_1}</span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      <div class="cta-wrap"><a class="primary-button" id="more-link" href={'/go/' + site.slug}><span>{site.testo_bottone_1}</span><span aria-hidden="true"> â†’</span></a></div>
       <SocialIcons />
     </div>
     <Footer />
   </main>
-  <script>
-    const link = document.getElementById('more-link');
-    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
-    if (link && fbclid && /^[a-zA-Z0-9_.-]{1,256}$/.test(fbclid)) { const url = new URL(link.href);url.searchParams.set('fbclid',fbclid);link.href = url.pathname + url.search; }
-    const eventData = JSON.stringify({event:'page_one',referrer:document.referrer});
-    if (navigator.sendBeacon) navigator.sendBeacon('/api/events',new Blob([eventData],{ty¶»§q«^
+</Layout>
