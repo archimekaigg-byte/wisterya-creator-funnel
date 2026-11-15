@@ -6,7 +6,6 @@ import Footer from '../../components/Footer.astro';
 export const getStaticPaths = () => [{params:{slug:site.slug}}];
 ---
 <Layout title={`${site.nome} | Chat`} description={site.testo_pagina_2} image={site.foto_b} robots="noindex,nofollow" canonicalPath={`/go/${site.slug}`}>
-  <input type="checkbox" id="age-accepted" class="age-accepted-control" aria-label="I confirm I am over 18" />
   <main class="site-shell page-two">
     <div class="content">
       <ProfileCard second={true} />
@@ -15,24 +14,6 @@ export const getStaticPaths = () => [{params:{slug:site.slug}}];
     </div>
     <Footer />
   </main>
-
-  <div class="age-overlay" id="age-overlay">
-    <section class="age-dialog" role="dialog" aria-modal="true" aria-labelledby="age-title" aria-describedby="age-description">
-      <h2 id="age-title">Are you over 18?</h2>
-      <p id="age-description">This link contains content for adults only. Please confirm you are 18 or older to continue.</p>
-      <div class="age-actions">
-        <label class="primary-button age-confirm-label" for="age-accepted">Yes, I'm over 18</label>
-        <a class="secondary-button" href={`/${site.slug}`}>No, take me back</a>
-      </div>
-    </section>
-  </div>
-  <style is:global>
-    .age-accepted-control {position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
-    #fanvue-link {pointer-events:none;opacity:.5;}
-    .age-accepted-control:checked ~ main #fanvue-link {pointer-events:auto;opacity:1;}
-    .age-accepted-control:checked ~ #age-overlay {display:none!important;pointer-events:none!important;}
-    .age-confirm-label {min-height:54px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-  </style>
   <script>
     const data=JSON.stringify({event:'page_two',referrer:document.referrer});
     if (navigator.sendBeacon) navigator.sendBeacon('/api/events',new Blob([data],{type:'text/plain'}));
