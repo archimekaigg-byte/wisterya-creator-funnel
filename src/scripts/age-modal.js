@@ -1,26 +1,42 @@
-  // This script reads only public values from the HTML, never server secrets.
-  const overlay=document.getElementById('age-overlay');
-  const siteKey=overlay?.dataset.sitekey || '';
-  const firstPath=overlay?.dataset.back || '/';
-  const modal=document.getElementById('age-dialog');
-  const open=document.querySelector('[data-open-age]');
-  const button=document.getElementById('confirm-age');
-  const token=document.getElementById('age-token');
-  const fbclid=document.getElementById('age-fbclid');
-  const status=document.getElementById('age-status');
-  const form=document.getElementById('age-form');
-  const deny=document.getElementById('decline-age');
-  const widget=document.getElementById('turnstile-widget');
-  const params=new URLSearchParams(location.search);
-  const clickId=params.get('fbclid');
-  if(clickId && /^[\w.-]{1,256}$/.test(clickId)) fbclid.value=clickId;
-  let rendered=false;
-  function event(name){const json=JSON.stringify({event:name,referrer:document.referrer});if(navigator.sendBeacon)navigator.sendBeacon('/api/events',new Blob([json],{type:'text/plain'}));}
-  function loadTurnstile(){
-    if(!siteKey){status.textContent='Verification is unavailable until the site owner configures Turnstile.';return;}
-    const show=()=>{
-      if(rendered || !window.turnstile)return;
-      rendered=true;
-      window.turnstile.render(widget,{
-        sitekey:siteKey,theme:'dark',language:'auto',appearance:'always',size:'flexible',action:'age-confirm','response-field':false,
- ¶»§q«^
+const overlay = document.getElementById('age-overlay');
+const trigger = document.querySelector('[data-open-age]');
+const form = document.getElementById('age-form');
+const button = document.getElementById('confirm-age');
+const token = document.getElementById('age-token');
+const status = document.getElementById('age-status');
+const widget = document.getElementById('turnstile-widget');
+const siteKey = overlay?.dataset.sitekey;
+function openAge() {
+  if (!overlay) return;
+  overlay.hidden = false;
+  if (!siteKey) {
+    if (status) status.textContent = 'Verification is unavailable. Please try again later.';
+    return;
+  }
+  if (window.turnstile) { renderChallenge(); return; }
+  if (!document.querySelector('script[data-turnstile]')) {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.dataset.turnstile = 'true';
+    script.onload = renderChallenge;
+    document.head.appendChild(script);
+  }
+}
+let rendered = false;
+function renderChallenge() {
+  if (rendered || !window.turnstile || !siteKey || !widget) return;
+  rendered = true;
+  window.turnstile.render(widget, {
+    sitekey: siteKey,
+    theme: 'dark',
+    callback: (value) => { if (token) token.value = value; if (button) button.disabled = false; },
+    'expired-callback': () => { if (token) token.value = ''; if (button) button.disabled = true; },
+    'error-callback': () => { if (button) button.disabled = true; if (status) status.textContent = 'Verification failed. Please retry.'; }
+  });
+}
+trigger?.addEventListener('click', openAge);
+form?.addEventListener('submit', (event) => {
+  if (!token?.value) { event.preventDefault(); if (status) status.textContent = 'Complete verification first.'; }
+});
