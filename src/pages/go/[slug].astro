@@ -6,11 +6,12 @@ import Footer from '../../components/Footer.astro';
 export const getStaticPaths = () => [{params:{slug:site.slug}}];
 ---
 <Layout title={`${site.nome} | Chat`} description={site.testo_pagina_2} image={site.foto_b} robots="noindex,nofollow" canonicalPath={`/go/${site.slug}`}>
+  <input type="checkbox" id="age-accepted" class="age-accepted-control" aria-label="I confirm I am over 18" />
   <main class="site-shell page-two">
     <div class="content">
       <ProfileCard second={true} />
       <p class="page-two-copy">{site.testo_pagina_2}</p>
-      <div class="cta-wrap"><a class="primary-button" id="fanvue-link" href={site.url_destinazione} rel="noopener noreferrer" aria-disabled="true" tabindex="-1" style="pointer-events:none;opacity:.5">{site.testo_bottone_2}</a></div>
+      <div class="cta-wrap"><a class="primary-button" id="fanvue-link" href={site.url_destinazione} rel="noopener noreferrer">{site.testo_bottone_2}</a></div>
     </div>
     <Footer />
   </main>
@@ -20,50 +21,18 @@ export const getStaticPaths = () => [{params:{slug:site.slug}}];
       <h2 id="age-title">Are you over 18?</h2>
       <p id="age-description">This link contains content for adults only. Please confirm you are 18 or older to continue.</p>
       <div class="age-actions">
-        <button class="primary-button" type="button" id="confirm-age" style="min-height:44px">Yes, I'm over 18</button>
-        <a class="secondary-button" href={`/${site.slug}`} style="min-height:44px">No, take me back</a>
+        <label class="primary-button age-confirm-label" for="age-accepted">Yes, I'm over 18</label>
+        <a class="secondary-button" href={`/${site.slug}`}>No, take me back</a>
       </div>
     </section>
   </div>
-  <style>#age-overlay[hidden]{display:none!important;pointer-events:none!important}</style>
-  <script is:inline>
-    (function () {
-      function initializeAgeGate() {
-        try {
-          var overlay = document.getElementById('age-overlay');
-          var confirmButton = document.getElementById('confirm-age');
-          var link = document.getElementById('fanvue-link');
-          if (!overlay || !confirmButton || !link) return;
-          var key = 'age-confirmed:' + window.location.pathname;
-          function unlock() {
-            overlay.hidden = true;
-            overlay.style.display = 'none';
-            overlay.style.pointerEvents = 'none';
-            document.body.style.overflow = '';
-            link.style.pointerEvents = 'auto';
-            link.style.opacity = '1';
-            link.removeAttribute('aria-disabled');
-            link.removeAttribute('tabindex');
-          }
-          try {
-            if (window.sessionStorage.getItem(key) === 'yes') unlock();
-          } catch (error) { /* Session storage may be blocked. */ }
-          confirmButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            unlock();
-            try { window.sessionStorage.setItem(key, 'yes'); } catch (error) {}
-          }, false);
-        } catch (error) {
-          console.error('Age gate initialization failed', error);
-        }
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeAgeGate, { once: true });
-      } else {
-        initializeAgeGate();
-      }
-    })();
-  </script>
+  <style is:global>
+    .age-accepted-control {position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
+    #fanvue-link {pointer-events:none;opacity:.5;}
+    .age-accepted-control:checked ~ main #fanvue-link {pointer-events:auto;opacity:1;}
+    .age-accepted-control:checked ~ #age-overlay {display:none!important;pointer-events:none!important;}
+    .age-confirm-label {min-height:54px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  </style>
   <script>
     const data=JSON.stringify({event:'page_two',referrer:document.referrer});
     if (navigator.sendBeacon) navigator.sendBeacon('/api/events',new Blob([data],{type:'text/plain'}));
