@@ -1,10 +1,10 @@
 ---
 import config from '../../config/site.config.json';
 import '../styles/global.css';
-const { title, description, image = config.foto_a, robots='index,follow', canonicalPath='/' } = Astro.props;
-const host = config.dominio === 'https://example.com' ? '' : config.dominio.replace(/\/$/,'');
-const canonical = host ? host + canonicalPath : undefined;
-const ogImage = host ? new URL(image, host).href : image;
+const { title, description, image = config.foto_a, robots = 'index,follow', canonicalPath = '/' } = Astro.props;
+const host = config.dominio.replace(/\/$/, '');
+const canonical = host + canonicalPath;
+const ogImage = new URL(image, host).href;
 const colors = config.colori;
 ---
 <!doctype html>
@@ -16,14 +16,12 @@ const colors = config.colori;
     <meta name="robots" content={robots} />
     <meta name="description" content={description} />
     <title>{title}</title>
-    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="canonical" href={canonical} />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="900" />
-    <meta property="og:image:height" content="1125" />
-    {canonical && <meta property="og:url" content={canonical} />}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:d¶»§q«^
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body><slot /></body>
+</html>
