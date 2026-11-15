@@ -11,9 +11,24 @@ const description = site.nome + ' (' + site.handle + '). ' + site.bio;
   <main class="site-shell">
     <div class="content">
       <ProfileCard />
-      <div class="cta-wrap"><a class="primary-button" id="more-link" href={'/go/' + site.slug}><span>{site.testo_bottone_1}</span><span aria-hidden="true"> →</span></a></div>
+      <div class="cta-wrap"><a class="primary-button" id="more-link" href="#age-confirmation"><span>{site.testo_bottone_1}</span><span aria-hidden="true"> →</span></a></div>
       <SocialIcons />
     </div>
     <Footer />
   </main>
+  <div class="age-overlay" id="age-confirmation">
+    <section class="age-dialog" role="dialog" aria-labelledby="age-title" aria-describedby="age-description">
+      <h2 id="age-title">Are you over 18?</h2>
+      <p id="age-description">This link contains content for adults only. Please confirm you are 18 or older to continue.</p>
+      <div class="age-actions">
+        <a class="primary-button" href={'/go/' + site.slug}>Yes, I'm over 18</a>
+        <a class="secondary-button" href={'/' + site.slug}>No, take me back</a>
+      </div>
+    </section>
+  </div>
+  <style is:global>
+    #age-confirmation {display:none;pointer-events:none;}
+    #age-confirmation:target {display:flex;pointer-events:auto;}
+    #age-confirmation .age-actions a {min-height:54px;touch-action:manipulation;}
+  </style>
 </Layout>
